@@ -1,28 +1,38 @@
+#
+# Use example: python3 handler.py [name_of_content] access_key_id access_key_secret eu-west-1 bucket
+#
+
 import json
 
 import boto3
 from pdf2image import convert_from_bytes
 from pyzbar import pyzbar
 import sys
+import json
 
-# [0] List of ids for the contents in the AWS bucket to get informatio on
-CONTENT_ID_LIST = sys.argv[0]
+# [1] List of ids for the contents in the AWS bucket to get informatio on
+CONTENT_ID_LIST = eval(sys.argv[1])
 
-# [1] Access key id to AWS
-AWS_ACCESS_KEY_ID = sys.argv[1]
+# [2] Access key id to AWS
+AWS_ACCESS_KEY_ID = sys.argv[2]
 
-# [2] Access key secret to AWS
-AWS_SECRET_ACCESS_KEY = sys.argv[2]
+# [3] Access key secret to AWS
+AWS_SECRET_ACCESS_KEY = sys.argv[3]
 
-# [3] name of the AWS region tp use (e.g. "eu-west-1")
-REGION_NAME = sys.argv[3]
+# [4] name of the AWS region tp use (e.g. "eu-west-1")
+REGION_NAME = sys.argv[4]
 
-# [4] aws bucket name to use
-BUCKET_NAME = sys.argv[4]
+# [5] aws bucket name to use
+BUCKET_NAME = sys.argv[5]
 
 # Set this Path to where you have poppler installed
 POPPLER_PATH = "D:/dev/poppler-20.12.1/bin"
 
+
+print("Content ids: " + str(CONTENT_ID_LIST))
+print("Access key: " + AWS_ACCESS_KEY_ID + ", " + AWS_SECRET_ACCESS_KEY)
+print("Region: " + REGION_NAME)
+print("Bucket: " + BUCKET_NAME)
 
 class QrCodeContent:
     def __init__(self, qr_data_json):
@@ -72,4 +82,6 @@ def main():
 
     return parsed_contents
 
-main()
+
+result = main()
+print(json.dumps([ob.__dict__ for ob in result]))
