@@ -57,15 +57,15 @@ def get_session():
 def get_file_bytes_from_s3(content_id):
     s3 = get_session().resource("s3")
     s3_object = s3.Object(BUCKET_NAME, str(content_id))
-    bytes = s3_object.get()['Body'].read()
-    return bytes
+    read_bytes = s3_object.get()['Body'].read()
+    return read_bytes
 
 
 def main():
     parsed_contents = []
     for content_id in CONTENT_ID_LIST:
-        bytes = get_file_bytes_from_s3(content_id)
-        pages = convert_from_bytes(bytes, 500, poppler_path=POPPLER_PATH)
+        read_bytes = get_file_bytes_from_s3(content_id)
+        pages = convert_from_bytes(read_bytes, 500, poppler_path=POPPLER_PATH)
 
         qr_decoded = []
         for page in pages:
