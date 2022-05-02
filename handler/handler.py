@@ -10,7 +10,7 @@ from pyzbar import pyzbar
 import sys
 import json
 
-# [1] List of ids for the contents in the AWS bucket to get informatio on
+# [1] List of ids for the contents in the AWS bucket to get information on
 CONTENT_ID_LIST = eval(sys.argv[1])
 
 # [2] Access key id to AWS
@@ -70,9 +70,11 @@ def main():
         qr_decoded = []
         for page in pages:
             qr_decoded = pyzbar.decode(page)
+            # Break if a qr code was found
             if len(qr_decoded) > 0:
                 break
 
+        # read the data if successfully decoded a qr code
         if len(qr_decoded) > 0:
             qr_data_string = qr_decoded[0].data.decode("utf-8")
             qr_data_json = json.loads(qr_data_string)
